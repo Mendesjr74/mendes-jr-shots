@@ -4,7 +4,7 @@ const portfolio = defineCollection({
   type: 'content',
   schema: z.object({
     title: z.string(),
-    date: z.string(),
+    date: z.coerce.date(),
     location: z.string().optional(),
     image: z.string().optional(),
     camera: z.string().optional(),
@@ -16,7 +16,7 @@ const historias = defineCollection({
   type: 'content',
   schema: z.object({
     title: z.string(),
-    date: z.string(),
+    date: z.coerce.date(),
     excerpt: z.string(),
     cover: z.string().optional(),
   }),
@@ -26,7 +26,7 @@ const aulas = defineCollection({
   type: 'content',
   schema: z.object({
     title: z.string(),
-    date: z.string(),
+    date: z.coerce.date(),
     excerpt: z.string(),
     type: z.enum(['texto', 'video']),
     level: z.enum(['Iniciante', 'Intermediário', 'Avançado', 'Geral']).optional(),
