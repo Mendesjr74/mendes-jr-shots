@@ -12,6 +12,31 @@ logo_url: /favicon.svg
 locale: "pt"
 
 collections:
+  - name: "config"
+    label: "Configurações do site"
+    editor:
+      preview: false
+    files:
+      - name: "site"
+        label: "Site"
+        file: "src/content/site/site.json"
+        format: "json"
+        media_folder: "/public/images/site"
+        public_folder: "/images/site"
+        fields:
+          - { label: "Seu nome", name: "nome", widget: "string", hint: "Aparece no cabeçalho e no rodapé" }
+          - { label: "Tagline", name: "tagline", widget: "string", required: false, hint: "Subtítulo ao lado do nome (ex: 'Shots & Notes')" }
+          - { label: "Título do hero", name: "heroTitulo", widget: "text", required: false, hint: "Frase principal da home" }
+          - { label: "Subtítulo do hero", name: "heroSubtitulo", widget: "text", required: false, hint: "Parágrafo abaixo do título" }
+          - { label: "Foto de destaque do hero", name: "heroDestaque", widget: "image", required: false, hint: "Foto grande que aparece na home" }
+          - { label: "Legenda da foto de destaque", name: "heroDestaqueLegenda", widget: "string", required: false }
+          - { label: "Sua foto (seção Sobre)", name: "fotoPerfil", widget: "image", required: false, hint: "Foto sua que aparece na seção Sobre" }
+          - { label: "Bio", name: "bio", widget: "text", required: false, hint: "Texto curto sobre você na seção Sobre" }
+          - { label: "Email", name: "email", widget: "string", required: false }
+          - { label: "Instagram (URL)", name: "instagram", widget: "string", required: false, hint: "Ex: https://instagram.com/seuperfil" }
+          - { label: "YouTube (URL)", name: "youtube", widget: "string", required: false }
+          - { label: "Behance (URL)", name: "behance", widget: "string", required: false }
+
   - name: "portfolio"
     label: "Portfólio"
     label_singular: "Foto"

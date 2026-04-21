@@ -35,4 +35,22 @@ const aulas = defineCollection({
   }),
 });
 
-export const collections = { portfolio, historias, aulas };
+const site = defineCollection({
+  type: 'data',
+  schema: z.object({
+    nome: z.string(),
+    tagline: z.string().optional(),
+    heroTitulo: z.string().optional(),
+    heroSubtitulo: z.string().optional(),
+    heroDestaque: z.string().optional(),
+    heroDestaqueLegenda: z.string().optional(),
+    fotoPerfil: z.string().optional(),
+    bio: z.string().optional(),
+    email: z.string().optional(),
+    instagram: z.string().optional(),
+    youtube: z.string().optional(),
+    behance: z.string().optional(),
+  }),
+});
+
+export const collections = { portfolio, historias, aulas, site };

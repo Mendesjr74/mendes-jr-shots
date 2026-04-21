@@ -1,19 +1,24 @@
 ---
+import { getEntry } from 'astro:content';
+const site = (await getEntry('site', 'site'))?.data;
+const nome = site?.nome ?? 'Mendes Jr';
+const tagline = site?.tagline ?? 'Shots & Notes';
+const inicial = nome.trim().charAt(0).toUpperCase();
 ---
 <header class="sticky top-0 z-40 border-b border-navy-800/60 bg-navy-950/70 backdrop-blur-md">
   <div class="container-x flex h-16 items-center justify-between">
     <a href="/" class="group flex items-center gap-3">
-      <span class="grid h-8 w-8 place-items-center rounded-full border border-navy-600 text-sm font-semibold tracking-wider text-sand-100 transition group-hover:border-sand-100/60">M</span>
+      <span class="grid h-8 w-8 place-items-center rounded-full border border-navy-600 text-sm font-semibold tracking-wider text-sand-100 transition group-hover:border-sand-100/60">{inicial}</span>
       <span class="font-display text-base tracking-wide">
-        Mendes Jr <span class="text-sand-200/60">· Shots & Notes</span>
+        {nome} {tagline && <span class="text-sand-200/60">· {tagline}</span>}
       </span>
     </a>
     <nav class="hidden items-center gap-8 text-sm text-sand-200/80 md:flex">
-      <a href="#portfolio" class="transition hover:text-sand-100">Portfólio</a>
-      <a href="#historias" class="transition hover:text-sand-100">Histórias</a>
-      <a href="#aulas" class="transition hover:text-sand-100">Aulas</a>
-      <a href="#sobre" class="transition hover:text-sand-100">Sobre</a>
+      <a href="/#portfolio" class="transition hover:text-sand-100">Portfólio</a>
+      <a href="/#historias" class="transition hover:text-sand-100">Histórias</a>
+      <a href="/#aulas" class="transition hover:text-sand-100">Aulas</a>
+      <a href="/#sobre" class="transition hover:text-sand-100">Sobre</a>
     </nav>
-    <a href="#contato" class="btn-primary text-xs">Contato</a>
+    <a href="/#contato" class="btn-primary text-xs">Contato</a>
   </div>
 </header>
