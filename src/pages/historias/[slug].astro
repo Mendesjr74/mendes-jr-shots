@@ -1,0 +1,36 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('historias');
+  return posts.map((post) => ({ params: { slug: post.slug }, props: { post } }));
+}
+
+const { post } = Astro.props;
+const { Content } = await post.render();
+const dateFmt = new Date(post.data.date).toLocaleDateString('pt-BR', {
+  day: '2-digit', month: 'long', year: 'numeric',
+});
+---
+<Base title={`${post.data.title} · Histórias`} description={post.data.excerpt}>
+  <article class="container-x py-20 sm:py-28">
+    <a href="/historias" class="text-sm text-sand-200/60 transition hover:text-sand-100">← Histórias</a>
+
+    <header class="mt-8 max-w-3xl">
+      <p class="text-xs uppercase tracking-[0.25em] text-sand-200/60">{dateFmt}</p>
+      <h1 class="mt-4 font-display text-4xl leading-tight sm:text-5xl">{post.data.title}</h1>
+      <p class="mt-6 text-lg text-sand-200/80 leading-relaxed">{post.data.excerpt}</p>
+    </header>
+
+    {post.data.cover && (
+      <div class="mt-12 card aspect-[3/2] max-w-3xl">
+        <img src={post.data.cover} alt={post.data.title} class="h-full w-full object-cover" />
+      </div>
+    )}
+
+    <div class="prose prose-invert mt-12 max-w-2xl text-sand-200/80 leading-relaxed [&_p]:mb-4 [&_h2]:mt-8 [&_h2]:font-display [&_h2]:text-2xl [&_h3]:mt-6 [&_h3]:font-display [&_h3]:text-xl [&_strong]:text-sand-100 [&_a]:text-sand-100 [&_a]:underline">
+      <Content />
+    </div>
+  </article>
+</Base>

@@ -1,0 +1,38 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+
+const aulas = (await getCollection('aulas')).sort(
+  (a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime()
+);
+---
+<Base title="Aulas · Mendes Jr Shots & Notes">
+  <section class="container-x py-20 sm:py-28">
+    <div class="mb-14">
+      <a href="/" class="text-sm text-sand-200/60 transition hover:text-sand-100">← Voltar</a>
+      <h1 class="mt-6 font-display text-5xl sm:text-6xl">Aulas</h1>
+      <p class="mt-4 max-w-xl text-sand-200/70">O que fui aprendendo no caminho — em texto e em vídeo.</p>
+    </div>
+
+    <div class="grid gap-5 md:grid-cols-2">
+      {aulas.map((aula) => (
+        <a href={`/aulas/${aula.slug}`} class="card group flex items-start gap-5 p-6">
+          <div class="grid h-14 w-14 shrink-0 place-items-center rounded-xl border border-navy-700 bg-navy-800/60 text-sand-100">
+            {aula.data.type === 'video' ? (
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polygon points="6 4 20 12 6 20 6 4"/></svg>
+            ) : (
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 4h12a4 4 0 0 1 4 4v12H8a4 4 0 0 1-4-4z"/><path d="M8 8h8M8 12h8M8 16h5"/></svg>
+            )}
+          </div>
+          <div class="flex-1">
+            <p class="text-xs uppercase tracking-[0.2em] text-sand-200/60">
+              {aula.data.type === 'video' ? 'Vídeo' : 'Texto'} · {aula.data.level ?? 'Geral'}
+            </p>
+            <h2 class="mt-2 font-display text-xl leading-tight transition group-hover:text-sand-100">{aula.data.title}</h2>
+            <p class="mt-2 text-sm leading-relaxed text-sand-200/70 line-clamp-2">{aula.data.excerpt}</p>
+          </div>
+        </a>
+      ))}
+    </div>
+  </section>
+</Base>

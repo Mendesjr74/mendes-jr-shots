@@ -1,0 +1,70 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+
+export async function getStaticPaths() {
+  const aulas = await getCollection('aulas');
+  return aulas.map((aula) => ({ params: { slug: aula.slug }, props: { aula } }));
+}
+
+const { aula } = Astro.props;
+const { Content } = await aula.render();
+const dateFmt = new Date(aula.data.date).toLocaleDateString('pt-BR', {
+  day: '2-digit', month: 'long', year: 'numeric',
+});
+
+function youtubeEmbed(url: string): string | null {
+  const m = url.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/|v\/))([\w-]{11})/);
+  return m ? `https://www.youtube.com/embed/${m[1]}` : null;
+}
+function vimeoEmbed(url: string): string | null {
+  const m = url.match(/vimeo\.com\/(\d+)/);
+  return m ? `https://player.vimeo.com/video/${m[1]}` : null;
+}
+
+const embedUrl = aula.data.videoUrl
+  ? (youtubeEmbed(aula.data.videoUrl) ?? vimeoEmbed(aula.data.videoUrl))
+  : null;
+---
+<Base title={`${aula.data.title} · Aulas`} description={aula.data.excerpt}>
+  <article class="container-x py-20 sm:py-28">
+    <a href="/aulas" class="text-sm text-sand-200/60 transition hover:text-sand-100">← Aulas</a>
+
+    <header class="mt-8 max-w-3xl">
+      <p class="text-xs uppercase tracking-[0.25em] text-sand-200/60">
+        {aula.data.type === 'video' ? 'Vídeo' : 'Texto'} · {aula.data.level ?? 'Geral'} · {dateFmt}
+      </p>
+      <h1 class="mt-4 font-display text-4xl leading-tight sm:text-5xl">{aula.data.title}</h1>
+      <p class="mt-6 text-lg text-sand-200/80 leading-relaxed">{aula.data.excerpt}</p>
+    </header>
+
+    {aula.data.type === 'video' && embedUrl && (
+      <div class="mt-12 overflow-hidden rounded-2xl border border-navy-800 bg-navy-900 aspect-video max-w-3xl">
+        <iframe
+          src={embedUrl}
+          title={aula.data.title}
+          class="h-full w-full"
+          loading="lazy"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen
+        ></iframe>
+      </div>
+    )}
+
+    {aula.data.type === 'video' && !embedUrl && aula.data.videoUrl && (
+      <div class="mt-12 max-w-3xl">
+        <a href={aula.data.videoUrl} target="_blank" rel="noopener" class="btn-primary">Assistir o vídeo →</a>
+      </div>
+    )}
+
+    {aula.data.cover && aula.data.type !== 'video' && (
+      <div class="mt-12 card aspect-[3/2] max-w-3xl">
+        <img src={aula.data.cover} alt={aula.data.title} class="h-full w-full object-cover" />
+      </div>
+    )}
+
+    <div class="prose prose-invert mt-12 max-w-2xl text-sand-200/80 leading-relaxed [&_p]:mb-4 [&_h2]:mt-8 [&_h2]:font-display [&_h2]:text-2xl [&_h3]:mt-6 [&_h3]:font-display [&_h3]:text-xl [&_strong]:text-sand-100 [&_a]:text-sand-100 [&_a]:underline [&_code]:rounded [&_code]:bg-navy-800 [&_code]:px-1.5 [&_code]:py-0.5 [&_code]:text-sm">
+      <Content />
+    </div>
+  </article>
+</Base>
