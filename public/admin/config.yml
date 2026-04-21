@@ -1,0 +1,78 @@
+backend:
+  name: git-gateway
+  branch: main
+
+media_folder: "public/images"
+public_folder: "/images"
+
+site_url: https://mendesjr-shots.netlify.app
+display_url: https://mendesjr-shots.netlify.app
+logo_url: /favicon.svg
+
+locale: "pt"
+
+collections:
+  - name: "portfolio"
+    label: "Portfólio"
+    label_singular: "Foto"
+    folder: "src/content/portfolio"
+    create: true
+    slug: "{{slug}}"
+    extension: "md"
+    format: "frontmatter"
+    media_folder: "/public/images/portfolio"
+    public_folder: "/images/portfolio"
+    fields:
+      - { label: "Título", name: "title", widget: "string" }
+      - { label: "Data", name: "date", widget: "datetime", format: "YYYY-MM-DD", date_format: "DD/MM/YYYY", time_format: false }
+      - { label: "Local", name: "location", widget: "string", required: false }
+      - { label: "Foto", name: "image", widget: "image", required: false }
+      - { label: "Câmera", name: "camera", widget: "string", required: false }
+      - { label: "Lente", name: "lens", widget: "string", required: false }
+      - { label: "Descrição", name: "body", widget: "markdown", required: false }
+
+  - name: "historias"
+    label: "Histórias"
+    label_singular: "História"
+    folder: "src/content/historias"
+    create: true
+    slug: "{{slug}}"
+    extension: "md"
+    format: "frontmatter"
+    media_folder: "/public/images/historias"
+    public_folder: "/images/historias"
+    fields:
+      - { label: "Título", name: "title", widget: "string" }
+      - { label: "Data", name: "date", widget: "datetime", format: "YYYY-MM-DD", date_format: "DD/MM/YYYY", time_format: false }
+      - { label: "Resumo", name: "excerpt", widget: "text" }
+      - { label: "Capa", name: "cover", widget: "image", required: false }
+      - { label: "Texto", name: "body", widget: "markdown" }
+
+  - name: "aulas"
+    label: "Aulas"
+    label_singular: "Aula"
+    folder: "src/content/aulas"
+    create: true
+    slug: "{{slug}}"
+    extension: "md"
+    format: "frontmatter"
+    media_folder: "/public/images/aulas"
+    public_folder: "/images/aulas"
+    fields:
+      - { label: "Título", name: "title", widget: "string" }
+      - { label: "Data", name: "date", widget: "datetime", format: "YYYY-MM-DD", date_format: "DD/MM/YYYY", time_format: false }
+      - { label: "Resumo", name: "excerpt", widget: "text" }
+      - label: "Tipo"
+        name: "type"
+        widget: "select"
+        options:
+          - { label: "Texto", value: "texto" }
+          - { label: "Vídeo", value: "video" }
+      - label: "Nível"
+        name: "level"
+        widget: "select"
+        required: false
+        options: ["Iniciante", "Intermediário", "Avançado", "Geral"]
+      - { label: "URL do vídeo (YouTube/Vimeo)", name: "videoUrl", widget: "string", required: false }
+      - { label: "Capa", name: "cover", widget: "image", required: false }
+      - { label: "Conteúdo", name: "body", widget: "markdown" }
