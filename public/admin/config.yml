@@ -5,8 +5,8 @@ backend:
 media_folder: "public/images"
 public_folder: "/images"
 
-site_url: https://mendesjr-shots.netlify.app
-display_url: https://mendesjr-shots.netlify.app
+site_url: https://mendesjrshots.netlify.app
+display_url: https://mendesjrshots.netlify.app
 logo_url: /favicon.svg
 
 locale: "pt"
